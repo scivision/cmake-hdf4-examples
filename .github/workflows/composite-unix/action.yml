@@ -1,0 +1,21 @@
+runs:
+
+  using: "composite"
+
+  steps:
+
+  - name: Config
+    run: cmake -B build
+    shell: bash
+
+  - run: cat build/CMakeFiles/CMakeConfigureLog.yaml
+    if: ${{ failure() }}
+    shell: bash
+
+  - name: Build
+    run: cmake --build build
+    shell: bash
+
+  - name: Test
+    run: ctest --test-dir build -V
+    shell: bash

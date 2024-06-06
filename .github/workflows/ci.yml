@@ -1,0 +1,36 @@
+name: ci
+
+env:
+  CTEST_NO_TESTS_ACTION: error
+  CTEST_PARALLEL_LEVEL: 0
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  CMAKE_INSTALL_PREFIX: ~/libs
+  CMAKE_PREFIX_PATH: ~/libs
+
+on:
+  push:
+    paths:
+      - "**.f"
+      - "**.F"
+      - "**.f90"
+      - "**.F90"
+      - "**.c"
+      - "**.cpp"
+      - "**.h"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/**"
+
+jobs:
+
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: ./.github/workflows/composite-reqs
+
+    - uses: ./.github/workflows/composite-unix
