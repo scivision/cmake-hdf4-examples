@@ -13,6 +13,7 @@ if(NOT HDF4_FOUND)
 
   FetchContent_Declare(hdf4
     URL https://github.com/HDFGroup/hdf4/releases/download/hdf4.3.0/hdf4.3.0.tar.gz
+    CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release
   )
   FetchContent_MakeAvailable(hdf4)
 endif()
