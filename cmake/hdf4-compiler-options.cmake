@@ -1,0 +1,4 @@
+set_property(
+  DIRECTORY APPEND PROPERTY COMPILE_OPTIONS
+  "$<$<AND:$<COMPILE_LANG_AND_ID:Fortran,GNU>,$<VERSION_GREATER_EQUAL:${CMAKE_Fortran_COMPILER_VERSION},10>>:-fallow-argument-mismatch>"
+)

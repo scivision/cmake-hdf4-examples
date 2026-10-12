@@ -7,6 +7,9 @@ enable_testing()
 include(FetchContent)
 
 set(HDF4_BUILD_FORTRAN on)
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include) # HDF4 4.4.0 needs this set to something
+
+set(CMAKE_PROJECT_HDF4_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/cmake/hdf4-compiler-options.cmake")
 
 FetchContent_Declare(hdf4
 URL https://github.com/HDFGroup/hdf4/releases/download/hdf4.4.0/hdf4.4.0.tar.gz
