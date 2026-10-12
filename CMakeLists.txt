@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19...3.24)
+cmake_minimum_required(VERSION 3.26...4.5)
 
 project(HDF4examples LANGUAGES C Fortran)
 
@@ -6,17 +6,14 @@ enable_testing()
 
 include(FetchContent)
 
-find_package(HDF4 CONFIG COMPONENTS C Fortran)
+set(HDF4_BUILD_FORTRAN on)
 
-if(NOT HDF4_FOUND)
-  set(HDF4_BUILD_FORTRAN on)
-
-  FetchContent_Declare(hdf4
-    URL https://github.com/HDFGroup/hdf4/releases/download/hdf4.3.0/hdf4.3.0.tar.gz
-    CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release
-  )
-  FetchContent_MakeAvailable(hdf4)
-endif()
+FetchContent_Declare(hdf4
+URL https://github.com/HDFGroup/hdf4/releases/download/hdf4.4.0/hdf4.4.0.tar.gz
+CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release
+FIND_PACKAGE_ARGS CONFIG COMPONENTS C Fortran
+)
+FetchContent_MakeAvailable(hdf4)
 
 set_property(DIRECTORY PROPERTY LABELS example)
 

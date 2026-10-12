@@ -3,7 +3,7 @@ name: ci
 env:
   CTEST_NO_TESTS_ACTION: error
   CTEST_PARALLEL_LEVEL: 0
-  CMAKE_BUILD_PARALLEL_LEVEL: 4
+  CMAKE_GENERATOR: Ninja
   HOMEBREW_NO_AUTO_UPDATE: 1
   CMAKE_INSTALL_PREFIX: ~/libs
   CMAKE_PREFIX_PATH: ~/libs
@@ -29,8 +29,21 @@ jobs:
     timeout-minutes: 15
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
-    - uses: ./.github/workflows/composite-reqs
+    - if: runner.os == 'Linux'
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends libopenmpi-dev libjpeg-dev
 
-    - uses: ./.github/workflows/composite-unix
+    - name: Config
+      run: cmake -B build
+
+    - run: cat build/CMakeFiles/CMakeConfigureLog.yaml
+      if: ${{ failure() }}
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Test
+      run: ctest --test-dir build -V
